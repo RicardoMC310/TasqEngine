@@ -117,3 +117,26 @@ _**🤷‍♂️Funções Opcionais🤷‍♂️**_
   - **X e Y**: são as coordenadas brutas, exemplos: *"380 e 893"*, *"26 e 423"*, *"326 e 37"* e etc.
   - **Xrel e Yrel**: São os deltas da movimentação, o quanroto que o mouse se moveu, exemplos: *"-1 e 0"*, *"10 e 4"*, *"2 e -7"*, *0 e 3* e etc.
 - **onMouseWheel**: Chamada quando houver scrool, já trata se o **usuário** estiver com o scrool invertido, seu parâmetros são simples, **X e Y**, sendo X para scrool lateral -1, 0 ou 1, e Y para scrool vertical -1, 0 ou 1.
+  
+<br/>
+
+---
+
+<br/>
+
+## 👼 O Que Pretendo Incluir Agora 👼
+lista do que já possui e o que ainda vai possuir
+
+<br/>
+
+- [x] Integração com lua.
+- [x] Criação da janela.
+- [x] Renderizar BackGround.
+- [x] Eventos.
+- [ ] Unir **onKeyUp(key)** com **onKeyDown(key)**.
+- [ ] Desenhar retângulos.
+- [ ] Criação de entidades.
+
+<br/>
+
+> mais para frente vou adicionando tópicos.
