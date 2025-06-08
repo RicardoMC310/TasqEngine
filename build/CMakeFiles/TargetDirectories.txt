@@ -1,0 +1,7 @@
+/home/ricardomc/Documentos/C++/TasqEngineLua/build/CMakeFiles/tLauncher.dir
+/home/ricardomc/Documentos/C++/TasqEngineLua/build/CMakeFiles/edit_cache.dir
+/home/ricardomc/Documentos/C++/TasqEngineLua/build/CMakeFiles/rebuild_cache.dir
+/home/ricardomc/Documentos/C++/TasqEngineLua/build/CMakeFiles/list_install_components.dir
+/home/ricardomc/Documentos/C++/TasqEngineLua/build/CMakeFiles/install.dir
+/home/ricardomc/Documentos/C++/TasqEngineLua/build/CMakeFiles/install/local.dir
+/home/ricardomc/Documentos/C++/TasqEngineLua/build/CMakeFiles/install/strip.dir
