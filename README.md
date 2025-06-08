@@ -1,79 +1,85 @@
 # 💻 Tasq Engine 💻
 
-&nbsp;&nbsp;&nbsp;&nbsp;uma engine que por enquanto simples, mas semeia prosperidade.
+Uma engine simples, leve e versátil! Perfeita para jogos _**indie**_
 
-![License](https://img.shields.io/github/license/RicardoMC310/TasqEngine)
-![Top Language](https://img.shields.io/github/languages/top/RicardoMC310/TasqEngine)
-![Last Commit](https://img.shields.io/github/last-commit/RicardoMC310/TasqEngine)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![Engine](https://img.shields.io/badge/engine-Tasq-blueviolet)
-![Language Created](https://img.shields.io/badge/language-cpp-red)
+---
 
-## ☁️ Dependências ☁️
+<br/>
 
-| Dependências             |
-|--------------------------|
-| - Lua 5.0                |
-| - SDL2                   |
-| - SDL2_image             |
+## 💯 Algumas Features 💯
+1. 😎 Possibilidade de interpretar o código do seu jogo fácilmente.
+2. 🧠 Super leve e fácil de criar jogos, não é muito verbosa, graças a implementação com a linguagem lua.
+3. 🔥 Implementação com SDL2, o que permite o jogo ser multiplataforma ( mais para frente ).
+4. 💼 Sistema de funções muito bem organizadas.
 
-## 👉 Instalação 👈
 
-&nbsp;&nbsp;&nbsp;&nbsp;clone a engine do repositório e a compile
+<br/>
+
+---
+
+<br/>
+
+## ☁️ Dependências Para Compilar ☁️
+> Necessário enquanto não faço a disponibilização do build final.
+
+<br/>
+
+| Biblioteca  |
+| ----------  |
+| SDL2        |
+| SDL2_image  |
+| Lua^5.0     |
+
+<br/>
+
+---
+
+<br/>
+
+### ⁉️ Como Faço Para Compilar ⁉️
+
+> Após certifica-se de resolver as dependências do projeto, agora é so usar o cmake para compilar.
+
+<br/>
 
 ```bash
-  git clone https://github.com/RicardoMC310/TasqEngine.git
-  cd TasqEngine
-  cd build
-  cmake ..
-  make
-  cmake --install .
+git clone https://github.com/RicardoMC310/TasqEngine.git
+cd TasqEngine
+mkdir build
+cmake -B build
+make
+cmake --install .
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;agora você terá o binário em dist/bin.
+<br/>
 
-## ⁉️ Como iniciar ⁉️
-- primeiramente você terá que ter uma arquivo lua para interpretar
-- após isso, você tem a disponibilidade de tais funções
-```lua
-  function start()
-    -- variáveis aqui
-  end
+após compilar o bińario estará disponivel na pasta **./dist/bin**
 
-  function update(deltaTime)
-    -- chamada a cada frame
-  end
+<br/>
 
-  function cleanup()
-    -- limpar dados
-  end
+---
 
-  function onKeyDown(key)
-    -- quando a tecla for pressionada
-  end
+<br/>
 
-  function onKeyUp(key)
-    -- quando a tecla for liberada
-  end
-  
-  function onMouseButton(button, action, x, y)
-    -- quando o mouse for clicado
-  end
+## 😊 Como Executo Meu Jogo 😊
 
-  function onMouseMotion(x, y, xrel, yrel)
-    -- quando o mouse se mover
-  end
+> após compilar e ter o executável, precisamos definir algumas coisas
 
-  function onMouseWheel(x, y)
-    -- quando quando a rodinha do mouse girar ou o touch
-  end
-  ```
+<br/>
 
-> unicas que são obrigatórias são as start, update e cleanup
+### 👾 O Que Já possuo 👾
 
-## 😂 Finalmente Rodando 😂
+poucas funções, mas depois falo disso.
 
-&nbsp;&nbsp;&nbsp;&nbsp; Com o seu código lua pronto. você terá que rodar a seguinte linha de comando
-```bash
- ./tLaucher {nome do arquivo}.lua
-```
+| Name              | O que faz                  |
+| ----------------- | -------------------------- |
+| start()           | Ponto de entrada da engine |
+| update(deltatime) | Chamada a cada frame       |
+| cleanup()         | Ponto de saída da engine   |
+| onKeyDown(key)    | Recebe a tecla pressionada |
+| onKeyUp(key)      | Recebe a tecla liberada    |
+| onMouseButton(button, action, x, y) | Recebe o click do mouse |
+| onMouseMotion(x, y, xrel, yrel) | Recebe o movimento do mouse |
+| onMouseWheel(x, y) | Recebe o scrool do mouse |
+
+> onKeyDown e onKeyUp logo serão unidas em uma única função.
