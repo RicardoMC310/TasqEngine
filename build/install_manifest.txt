@@ -1,1 +1,0 @@
-/home/ricardomc/Documentos/C++/TasqEngineLua/dist/bin/tLauncher
