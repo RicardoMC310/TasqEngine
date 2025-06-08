@@ -124,6 +124,22 @@ _**🤷‍♂️Funções Opcionais🤷‍♂️**_
 
 <br/>
 
+## 💆 Funções Disponíveis no momento 💆
+
+<br/>
+
+| name          | o que faz?                      | Parâmetros            |
+| ------------- | ------------------------------- | --------------------- |
+| init          | inicializa  o SDL2 e SDl2_image | nenhum                |
+| createWindow  | cria a janela                   | title, width e height |
+| destroyWindow | destroy a janela                | nenhum                |
+
+<br/>
+
+---
+
+<br/>
+
 ## 👼 O Que Pretendo Incluir Agora 👼
 lista do que já possui e o que ainda vai possuir
 

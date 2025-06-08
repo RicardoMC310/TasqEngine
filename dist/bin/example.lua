@@ -1,6 +1,7 @@
 function start()
     init()
     window = createWindow("Window", 640, 480)
+    
 end
 
 function update(deltaTime)
@@ -8,5 +9,5 @@ function update(deltaTime)
 end
 
 function cleanup()
-    destroyWindow(window)
+    window = destroyWindow(window)
 end

@@ -13,6 +13,7 @@ pkg_check_modules(LUA REQUIRED lua)  # ou "lua" dependendo do sistema
 add_executable(tLauncher 
     ./src/main.cpp
     ./src/Platform/Platform.cpp
+    ./src/Renderer/Renderer.cpp
 )
 
 # Incluir diretórios encontrados

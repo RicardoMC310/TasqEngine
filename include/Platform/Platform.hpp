@@ -6,18 +6,17 @@
 #include <lauxlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "../Renderer/Renderer.hpp"
 
 namespace Tasq
 {
+    struct Window;
+
     class Platform
     {
-        enum MouseButton {
-            PRESSED, RELEASED
-        };
 
-        static SDL_Window* window;
-        static SDL_Renderer* renderer;
-        static SDL_Event event;
+        SDL_Window* window;
+        Renderer* renderer;
 
         lua_State *L;
 
@@ -32,7 +31,6 @@ namespace Tasq
         const char *getError();
         void registerAllFuncs();
         void run();
-        void loadEnumMouseButtonToLua();
         const char* getButtonName(Uint8 button);
 
         // Funções que vão para a linguagem lua

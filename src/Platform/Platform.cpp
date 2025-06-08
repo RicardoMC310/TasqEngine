@@ -1,8 +1,10 @@
 #include "../../include/Platform/Platform.hpp"
 
-SDL_Window *Tasq::Platform::window = nullptr;
-SDL_Renderer *Tasq::Platform::renderer = nullptr;
-SDL_Event Tasq::Platform::event = {};
+struct Tasq::Window
+{
+    SDL_Window *window;
+    Renderer renderer;
+};
 
 Tasq::Platform::Platform()
 {
@@ -10,27 +12,7 @@ Tasq::Platform::Platform()
     L = luaL_newstate();
     luaL_openlibs(L);
 
-    this->window = nullptr;
-    this->renderer = nullptr;
-
     isRunning = true;
-}
-
-void Tasq::Platform::loadEnumMouseButtonToLua()
-{
-    lua_newtable(L);
-
-    lua_pushliteral(L, "PRESSED");
-    lua_pushinteger(L, static_cast<int>(MouseButton::PRESSED));
-    lua_settable(L, -3);
-
-    lua_pushliteral(L, "RELEASED");
-    lua_pushinteger(L, static_cast<int>(MouseButton::RELEASED));
-    lua_settable(L, -3);
-
-    lua_setglobal(L, "MouseButton");
-
-    lua_newtable(L);
 }
 
 const char *Tasq::Platform::getButtonName(Uint8 button)
@@ -55,8 +37,6 @@ const char *Tasq::Platform::getButtonName(Uint8 button)
 bool Tasq::Platform::openFile(const char *path)
 {
     std::cout << "CPP: Lendo arquivo..." << '\n';
-
-    loadEnumMouseButtonToLua();
 
     if (luaL_dofile(L, path) != LUA_OK)
     {
@@ -109,6 +89,8 @@ void Tasq::Platform::run()
         return;
     }
 
+    SDL_Event event;
+
     Uint32 lastTime = SDL_GetTicks();
     while (isRunning)
     {
@@ -117,50 +99,48 @@ void Tasq::Platform::run()
         double deltaTime = ((double)currentTime - lastTime) / 1000.0;
         lastTime = currentTime;
 
-        while (SDL_PollEvent(&this->event))
+        while (SDL_PollEvent(&event))
         {
 
-            switch (this->event.type)
+            switch (event.type)
             {
             case SDL_QUIT:
+                lua_getglobal(L, "cleanup");
+
+                if (!lua_isfunction(L, -1))
+                {
+                    std::cerr << "CPP: Função cleanup() não definida.\n";
+                    lua_pop(L, 1);
+                    return;
+                }
+
+                if (lua_pcall(L, 0, 0, 0) != LUA_OK)
+                {
+                    std::cerr << "CPP: Erro ao executar o cleanup()\n"
+                              << getError();
+                    return;
+                }
+
                 isRunning = false;
+
                 break;
 
             case SDL_KEYDOWN:
-
-                lua_getglobal(L, "onKeyDown");
-
-                if (lua_isfunction(L, -1))
-                {
-                    lua_pushstring(L, SDL_GetKeyName(this->event.key.keysym.sym));
-
-                    if (lua_pcall(L, 1, 0, 0) != LUA_OK)
-                    {
-                        std::cerr << "CPP: Erro ao executar o onKeyDown(key)\n"
-                                  << getError();
-                        lua_pop(L, 1);
-                    }
-                }
-                else
-                {
-                    lua_pop(L, 1);
-                }
-
-                break;
-
             case SDL_KEYUP:
 
-                lua_getglobal(L, "onKeyUp");
+                lua_getglobal(L, "onKeyEvent");
 
                 if (lua_isfunction(L, -1))
                 {
-                    const char *key = SDL_GetKeyName(this->event.key.keysym.sym);
+                    const char *key = SDL_GetKeyName(event.key.keysym.sym);
+                    const char *action = (event.type == SDL_KEYDOWN) ? "pressed" : "released";
                     lua_pushstring(L, key);
+                    lua_pushstring(L, action);
 
-                    if (lua_pcall(L, 1, 0, 0) != LUA_OK)
+                    if (lua_pcall(L, 2, 0, 0) != LUA_OK)
                     {
-                        std::cerr << "CPP: Erro ao executar o onKeyUp(key)\n"
-                                  << getError();
+                        std::cerr << "CPP: Erro ao executar o onKeyEvent(key, action)\n"
+                                  << getError() << '\n';
                         lua_pop(L, 1);
                     }
                 }
@@ -178,14 +158,14 @@ void Tasq::Platform::run()
 
                 if (lua_isfunction(L, -1))
                 {
-                    int action = (this->event.type == SDL_MOUSEBUTTONDOWN) ? MouseButton::PRESSED : MouseButton::RELEASED;
+                    const char *action = (event.type == SDL_MOUSEBUTTONDOWN) ? "pressed" : "released";
 
-                    const char *button = getButtonName(this->event.button.button);
-                    int x = this->event.button.x;
-                    int y = this->event.button.y;
+                    const char *button = getButtonName(event.button.button);
+                    int x = event.button.x;
+                    int y = event.button.y;
 
                     lua_pushstring(L, button);
-                    lua_pushinteger(L, action);
+                    lua_pushstring(L, action);
                     lua_pushinteger(L, x);
                     lua_pushinteger(L, y);
 
@@ -210,10 +190,10 @@ void Tasq::Platform::run()
                 if (lua_isfunction(L, -1))
                 {
 
-                    int x = this->event.motion.x;
-                    int y = this->event.motion.y;
-                    int xrel = this->event.motion.xrel;
-                    int yrel = this->event.motion.yrel;
+                    int x = event.motion.x;
+                    int y = event.motion.y;
+                    int xrel = event.motion.xrel;
+                    int yrel = event.motion.yrel;
 
                     lua_pushinteger(L, x);
                     lua_pushinteger(L, y);
@@ -238,12 +218,14 @@ void Tasq::Platform::run()
 
                 lua_getglobal(L, "onMouseWheel");
 
-                if (lua_isfunction(L, -1)) {
+                if (lua_isfunction(L, -1))
+                {
 
-                    int x = this->event.wheel.x;
-                    int y = this->event.wheel.y;
+                    int x = event.wheel.x;
+                    int y = event.wheel.y;
 
-                    if (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) {
+                    if (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED)
+                    {
                         x *= -1;
                         y *= -1;
                     }
@@ -257,17 +239,15 @@ void Tasq::Platform::run()
                                   << getError();
                         lua_pop(L, 1);
                     }
-
-                }else {
+                }
+                else
+                {
                     lua_pop(L, 1);
                 }
 
                 break;
             }
         }
-
-        SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
-        SDL_RenderClear(this->renderer);
 
         lua_getglobal(L, "update");
 
@@ -286,24 +266,6 @@ void Tasq::Platform::run()
                       << getError();
             return;
         }
-
-        SDL_RenderPresent(this->renderer);
-    }
-
-    lua_getglobal(L, "cleanup");
-
-    if (!lua_isfunction(L, -1))
-    {
-        std::cerr << "CPP: Função cleanup() não definida.\n";
-        lua_pop(L, 1);
-        return;
-    }
-
-    if (lua_pcall(L, 0, 0, 0) != LUA_OK)
-    {
-        std::cerr << "CPP: Erro ao executar o cleanup()\n"
-                  << getError();
-        return;
     }
 }
 
@@ -335,28 +297,28 @@ int Tasq::Platform::createWindow(lua_State *L)
     int width = luaL_checkinteger(L, 2);
     int height = luaL_checkinteger(L, 3);
 
-    window = SDL_CreateWindow(
+    Window *window = (Window *)malloc(sizeof(Window));
+
+    window->window = SDL_CreateWindow(
         title,
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         width, height,
         SDL_WINDOW_SHOWN);
 
-    if (!window)
+    if (!window->window)
     {
-        std::cerr << "CPP: Erro ao criar janela!\n"
+        std::cerr << "CPP: Erro ao criar janela SDL2\n"
                   << SDL_GetError() << '\n';
-        lua_pushlightuserdata(L, nullptr);
+        lua_pushnil(L);
         return 1;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    window->renderer = Renderer();
 
-    if (!renderer)
-    {
-        std::cerr << "CPP: Erro ao criar renderizador!\n"
+    if (window->renderer.init(window->window)) {
+        std::cerr << "CPP: Erro ao criar \n"
                   << SDL_GetError() << '\n';
-        lua_pushlightuserdata(L, nullptr);
+        lua_pushnil(L);
         return 1;
     }
 
@@ -367,14 +329,18 @@ int Tasq::Platform::createWindow(lua_State *L)
 
 int Tasq::Platform::destroyWindow(lua_State *L)
 {
-    std::cout << "CPP: Finalizando Plataforma...\n";
-    SDL_DestroyWindow(window);
-    SDL_DestroyRenderer(renderer);
+    std::cout << "CPP: Finalizando Plataforma\n";
+    Window *window = static_cast<Window *>(lua_touserdata(L, 1));
+
+    SDL_DestroyWindow(window->window);
+    window->renderer.~Renderer();
+
     SDL_Quit();
     IMG_Quit();
+
+    delete window;
     window = nullptr;
-    renderer = nullptr;
-    event = {};
+
     exit(0);
 
     return 0;
