@@ -67,6 +67,10 @@ após compilar o bińario estará disponivel na pasta **./dist/bin**
 
 <br/>
 
+---
+
+<br/>
+
 ### 👾 O Que Já possuo 👾
 
 poucas funções, mas depois falo disso.
@@ -83,3 +87,33 @@ poucas funções, mas depois falo disso.
 | onMouseWheel(x, y) | Recebe o scrool do mouse |
 
 > onKeyDown e onKeyUp logo serão unidas em uma única função.
+
+<br/>
+
+---
+
+<br/>
+
+### 💀 Especificações De Uso 💀
+
+bom enterder o conceito antes de sair usando
+
+<br/>
+
+_**❗Funções Obrigatórias❗**_
+- **start()**: Ponto de entrada da engine, onde serão criadas as variáveis dentre outras coisas que precisaram na engine.
+- **update(deltaTime)**: Ponto de chamada a cada frame, e tem como passagem de parâmetros o _**deltaTime**_, que é usado para controlar as atualizações uniformemente independentemente de quantos FPS está rodando o jogo.
+- **cleanup()**: Ponto de saída do programa, aqui é onde você exclui variáveis, limpa cache, salva o game num arquivo, pode ter várias funcionalidades.
+
+_**🤷‍♂️Funções Opcionais🤷‍♂️**_
+
+- **onKeyDown(key)**: Chamado quando alguma tecla for pressionada, o parâmetro _**key**_ é o nome da tecla, exemplo: *"Up"*, *"Down"*, *"A"*, *"Space"* e etc.
+- **onKeyUp(key)**: Mesma coisa do **OnKeyDown(key)**, mas é chamada apenas quando alguma tecla for liberada.
+- **onMouseButton(button, action, x, y)**: Função chamada quando houver clique do mouse, seus parâmetros são: 
+  - **button**: Botão pressionado, exemplo: *"Right"*, *"Middle"* ou *"Left"*.
+  - **action**: Explica se o botão foi pressionado ou liberado, você pode checar com o enum `MouseButton.PRESSED` ou `MouseButton.RELEASED`
+  - **X e Y**: São as coordenadas onde o clique foi disparado, assim sabendo exatamente onde o **usuário** clicou
+- **onMouseMotion(x, y, xrel, yrel)**: Chamada quando houver movimentação do mouse, seguintes parâmetros:
+  - **X e Y**: são as coordenadas brutas, exemplos: *"380 e 893"*, *"26 e 423"*, *"326 e 37"* e etc.
+  - **Xrel e Yrel**: São os deltas da movimentação, o quanroto que o mouse se moveu, exemplos: *"-1 e 0"*, *"10 e 4"*, *"2 e -7"*, *0 e 3* e etc.
+- **onMouseWheel**: Chamada quando houver scrool, já trata se o **usuário** estiver com o scrool invertido, seu parâmetros são simples, **X e Y**, sendo X para scrool lateral -1, 0 ou 1, e Y para scrool vertical -1, 0 ou 1.
