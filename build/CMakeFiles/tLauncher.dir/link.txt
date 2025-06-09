@@ -1,1 +1,0 @@
-/usr/bin/g++ -g -Wl,--dependency-file=CMakeFiles/tLauncher.dir/link.d CMakeFiles/tLauncher.dir/src/main.cpp.o CMakeFiles/tLauncher.dir/src/Platform/Platform.cpp.o CMakeFiles/tLauncher.dir/src/Renderer/Renderer.cpp.o -o tLauncher  -lSDL2 -lSDL2_image -lSDL2 -llua -lm -lSDL2_image -llua -lm

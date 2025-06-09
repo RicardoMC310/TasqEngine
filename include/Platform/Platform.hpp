@@ -7,6 +7,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "../Renderer/Renderer.hpp"
+#include "../Texture/Texture.hpp"
+#include "../Input/Input.hpp"
 
 namespace Tasq
 {
@@ -15,8 +17,11 @@ namespace Tasq
     class Platform
     {
 
-        SDL_Window* window;
-        Renderer* renderer;
+        static SDL_Window* window;
+        static SDL_Event event;
+        static Renderer renderer;
+        static Texture texture;
+        static Input input;
 
         lua_State *L;
 
@@ -37,6 +42,7 @@ namespace Tasq
         static int createWindow(lua_State *L);
         static int init(lua_State *L);
         static int destroyWindow(lua_State *L);
+        static int destroyTexture(lua_State *L);
     };
 
 };

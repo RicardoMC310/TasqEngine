@@ -12,16 +12,19 @@ namespace Tasq
 
     class Renderer
     {
-        SDL_Renderer *renderer;  
         
-        lua_State *L;
 
     public:
+
+        static SDL_Renderer *renderer;
         Renderer();
-        bool init(SDL_Window* window, lua_State *L);
+        bool init(SDL_Window *window);
         void render();
-        SDL_Renderer* getRenderer() const;
+        SDL_Renderer *getRenderer() const;
         ~Renderer();
+
+        static int drawRect(lua_State *L);
+        static int drawTexture(lua_State *L);
     };
 
 };

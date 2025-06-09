@@ -14,6 +14,8 @@ add_executable(tLauncher
     ./src/main.cpp
     ./src/Platform/Platform.cpp
     ./src/Renderer/Renderer.cpp
+    ./src/Texture/Texture.cpp
+    ./src/Input/Input.cpp
 )
 
 # Incluir diretórios encontrados
