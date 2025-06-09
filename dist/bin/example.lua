@@ -8,7 +8,7 @@ function start()
         w = 64,
         h = 64,
         spd = 250,
-        image = saveTexture("player1", "./spaceship.png")
+        image = saveTexture("./spaceship.png")
     }
 
 end
