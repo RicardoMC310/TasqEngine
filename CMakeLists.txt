@@ -37,9 +37,3 @@ target_link_libraries(tLauncher PRIVATE
 install(TARGETS tLauncher
     RUNTIME DESTINATION ${CMAKE_SOURCE_DIR}/dist/bin
 )
-
-# Instalar headers (suponha que seus headers estão em ./include)
-install(DIRECTORY include/
-    DESTINATION ${CMAKE_SOURCE_DIR}/dist/include
-    FILES_MATCHING PATTERN "*.h"
-)
