@@ -9,7 +9,6 @@ Tasq::Texture::Texture(SDL_Renderer *renderer)
 
 int Tasq::Texture::saveTexture(lua_State *L)
 {
-    const char *name = luaL_checkstring(L, 1);
     const char *url = luaL_checkstring(L, 2);
 
     SDL_Surface *surface = IMG_Load(url);

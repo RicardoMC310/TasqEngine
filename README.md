@@ -80,13 +80,10 @@ poucas funções, mas depois falo disso.
 | start()           | Ponto de entrada da engine |
 | update(deltatime) | Chamada a cada frame       |
 | cleanup()         | Ponto de saída da engine   |
-| onKeyDown(key)    | Recebe a tecla pressionada |
-| onKeyUp(key)      | Recebe a tecla liberada    |
+| onKeyEvent(key, action)    | Recebe Evento de teclado |
 | onMouseButton(button, action, x, y) | Recebe o click do mouse |
 | onMouseMotion(x, y, xrel, yrel) | Recebe o movimento do mouse |
 | onMouseWheel(x, y) | Recebe o scrool do mouse |
-
-> onKeyDown e onKeyUp logo serão unidas em uma única função.
 
 <br/>
 
@@ -107,11 +104,12 @@ _**❗Funções Obrigatórias❗**_
 
 _**🤷‍♂️Funções Opcionais🤷‍♂️**_
 
-- **onKeyDown(key)**: Chamado quando alguma tecla for pressionada, o parâmetro _**key**_ é o nome da tecla, exemplo: *"Up"*, *"Down"*, *"A"*, *"Space"* e etc.
-- **onKeyUp(key)**: Mesma coisa do **OnKeyDown(key)**, mas é chamada apenas quando alguma tecla for liberada.
+- **onKeyEvent(key, action)**: Função chamada quando evento do teclado for registrado, seus parâmetros são:
+  - **key**: O nome da tecla pressionada, exemplo: *"Escape"*, *"Left Shift"*, *"A"*, *"Right"* e etc.
+  - **action**: O tipo da ação, se é `"Pressed"` ou `"Released"`.
 - **onMouseButton(button, action, x, y)**: Função chamada quando houver clique do mouse, seus parâmetros são: 
   - **button**: Botão pressionado, exemplo: *"Right"*, *"Middle"* ou *"Left"*.
-  - **action**: Explica se o botão foi pressionado ou liberado, você pode checar com o enum `MouseButton.PRESSED` ou `MouseButton.RELEASED`
+  - **action**: Explica se o botão foi pressionado ou liberado, você pode checar com o enum `"Pressed"` ou `"Released"`
   - **X e Y**: São as coordenadas onde o clique foi disparado, assim sabendo exatamente onde o **usuário** clicou
 - **onMouseMotion(x, y, xrel, yrel)**: Chamada quando houver movimentação do mouse, seguintes parâmetros:
   - **X e Y**: são as coordenadas brutas, exemplos: *"380 e 893"*, *"26 e 423"*, *"326 e 37"* e etc.
@@ -133,6 +131,11 @@ _**🤷‍♂️Funções Opcionais🤷‍♂️**_
 | init          | inicializa  o SDL2 e SDl2_image | nenhum                |
 | createWindow  | cria a janela                   | title, width e height |
 | destroyWindow | destroy a janela                | nenhum                |
+| saveTexture | carrega uma textura | a url da imagem | 
+| isKeyDown | checa se a tecla está pressionada | nome da tecla
+| drawRect | desenha um retaângul | x, y, width e height
+| drawTexture | desenha a textura salva | texture, x, y, width e height |
+| destroyTexture | apaga a textura da memória | texture |
 
 <br/>
 
@@ -149,9 +152,9 @@ lista do que já possui e o que ainda vai possuir
 - [x] Criação da janela.
 - [x] Renderizar BackGround.
 - [x] Eventos.
-- [ ] Unir **onKeyUp(key)** com **onKeyDown(key)**.
-- [ ] Desenhar retângulos.
-- [ ] Criação de entidades.
+- [x] Unir **onKeyUp(key)** com **onKeyDown(key)**.
+- [x] Desenhar retângulos.
+- [x] Salvar e desenhar texturas
 
 <br/>
 
