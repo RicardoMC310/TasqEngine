@@ -159,3 +159,4 @@ lista do que já possui e o que ainda vai possuir
 <br/>
 
 > mais para frente vou adicionando tópicos.
+> e se quiser dar uma olhada, tem um examplo no dist/bin/example.lua, só dar uma olhada e executá-lo
