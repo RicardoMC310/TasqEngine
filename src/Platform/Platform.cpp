@@ -108,7 +108,7 @@ void Tasq::Platform::run()
             switch (this->event.type)
             {
             case SDL_QUIT:
-                isRunning = false;
+
                 lua_getglobal(L, "cleanup");
 
                 if (!lua_isfunction(L, -1))
@@ -124,6 +124,8 @@ void Tasq::Platform::run()
                               << getError();
                     return;
                 }
+
+                isRunning = false;
                 break;
             case SDL_KEYUP:
             case SDL_KEYDOWN:
@@ -327,9 +329,7 @@ int Tasq::Platform::destroyWindow(lua_State *L)
     IMG_Quit();
     window = nullptr;
     event = {};
-    renderer.~Renderer();
     lua_close(L);
-    exit(0);
 
     return 0;
 }

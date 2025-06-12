@@ -23,12 +23,14 @@ int Tasq::Texture::saveTexture(lua_State *L)
     {
         std::cerr << "CPP: Erro SDL_Renderer não inicializado!" << std::endl;
         SDL_FreeSurface(surface);
+        surface = nullptr;
         lua_pushnil(L);
         return 1;
     }
 
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
+    surface = nullptr;
 
     if (!texture)
     {

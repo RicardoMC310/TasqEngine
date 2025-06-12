@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.11)
 project(TasqEngineLua VERSION 1.0 LANGUAGES CXX)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 # Procurar pkg-config
 find_package(PkgConfig REQUIRED)
 

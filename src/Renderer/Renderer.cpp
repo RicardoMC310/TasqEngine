@@ -65,4 +65,5 @@ int Tasq::Renderer::drawTexture(lua_State *L)
 Tasq::Renderer::~Renderer()
 {
     SDL_DestroyRenderer(renderer);
+    renderer = nullptr;
 }
